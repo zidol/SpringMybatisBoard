@@ -42,10 +42,10 @@
 
         <div class="social-auth-links text-center">
             <p>- 또는 -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
-                <i class="fa fa-facebook"></i> 페이스북으로 로그인
+            <a href="${ naver_url }" class="btn btn-block btn-social btn-facebook btn-flat">
+                <i class="fa"></i> 네이버로 로그인
             </a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat">
+            <a href="${ google_url }" class="btn btn-block btn-social btn-google btn-flat">
                 <i class="fa fa-google-plus"></i> 구글 계정으로 로그인
             </a>
         </div>
