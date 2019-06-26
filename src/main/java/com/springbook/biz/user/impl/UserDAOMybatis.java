@@ -2,6 +2,7 @@ package com.springbook.biz.user.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -59,5 +60,23 @@ public class UserDAOMybatis {
 	public List<UserVO> getUserList(UserVO vo) {
 		System.out.println("===> Mybatis JDBC로 getUserList() 기능 처리");
 		return mybatis.selectList("UserDAO.getUserList", vo);
+	}
+	
+	//sns 계정으로 가입한 유저 확인
+	public UserVO getBySns(UserVO snsUser) {
+		System.out.println("===> Mybatis JDBC로 getBySns() 기능 처리");
+		if(StringUtils.isNotEmpty(snsUser.getNaverid())){
+			return mybatis.selectOne("UserDAO.getUserByNaver", snsUser.getNaverid()); 
+		} else {
+			return mybatis.selectOne("UserDAO.getUserByGoogle", snsUser.getGoogleid() );
+		}
+	}
+	//sns계정 로그인 하기
+	public int insertSnsUser(UserVO vo) {
+		System.out.println("===> Mybatis JDBC로 insertUser() 기능 처리");
+		int check = 0;
+		check = mybatis.insert("UserDAO.insertUser", vo);
+		System.out.println(check);
+		return check;
 	}
 }
