@@ -15,4 +15,8 @@ public interface UserService {
 	//회원탈퇴
 	void deleteUser(UserVO vo);
 	
+	UserVO getBySns(UserVO snsUser);
+	
+	int insertSnsUserVO(UserVO vo);
+	
 }

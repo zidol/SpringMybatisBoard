@@ -35,6 +35,18 @@ public class UserServiceImpl implements UserService{
 		userDAO.deleteUser(vo);		
 	}
 
+	@Override
+	public UserVO getBySns(UserVO snsUser) {
+		return userDAO.getBySns(snsUser);
+	}
+
+	@Override
+	public int insertSnsUserVO(UserVO vo) {
+		int joinCheck = 0;
+		joinCheck =  userDAO.insertSnsUser(vo);
+		return joinCheck;
+	}
+
 	
 
 
