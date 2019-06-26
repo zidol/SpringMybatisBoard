@@ -1,14 +1,24 @@
 package com.springbook.view.user;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jade.swp.auth.SNSLogin;
+import com.jade.swp.auth.SnsValue;
 import com.springbook.biz.user.UserService;
 import com.springbook.biz.user.UserVO;
 import com.springbook.biz.user.impl.UserDAO;
@@ -18,6 +28,20 @@ public class UserController {
 	// 1. JoinController
 	@Autowired
 	private UserService userService;
+	
+	@Inject
+	private SnsValue naverSns;
+	
+	@Inject
+	private SnsValue googleSns;
+//	@Inject
+////	private SnsValue facebookSns;
+	
+	@Inject
+	private GoogleConnectionFactory googleConnectionFactory;
+	
+	@Inject
+	private OAuth2Parameters googleOAuth2Parameters;
 	
 	@RequestMapping(value="/join.do", method=RequestMethod.POST)
 	public String jogin(UserVO vo) {
@@ -64,12 +88,58 @@ public class UserController {
 		return "redirect:login.do";
 	}
 	
+	@RequestMapping(value = "/auth/{service}/callback", method = { RequestMethod.GET, RequestMethod.POST})
+	public String snsLoginCallback(@PathVariable String service, Model model, @RequestParam String code, HttpSession session) throws Exception {
+		//1. code를이용해서accesstoken 받기
+		//2. accesstoken 을 이용해 사용자 profile 정보 가져오기
+		//3. DB 해당 유저가 존재하는지 체크(googleId, naverId컬럼 추가)
+		//4. 존재시강제로그인, 미존재가입 페이지
+		SnsValue sns = null;
+		
+		if(StringUtils.equals("naver" , service)) {
+			sns = naverSns;
+		} else if (StringUtils.equals("google" , service)) {
+			sns = googleSns;
+//		} else if (StringUtils.equals("facebook", service)) {
+//			sns = facebookSns;
+		}
+		
+		SNSLogin snsLogin = new SNSLogin(sns);
+		UserVO snsUser = snsLogin.getUserProfile(code); 
+		System.out.println("Profile >>" + snsUser);
+		UserVO user = userService.getBySns(snsUser);
+		if (user == null) {
+
+			return "/user/login";
+		} else {
+			model.addAttribute("result", user.getName() + "님 반갑습니다.");
+			
+			// 4. 존재시 강제로그인 
+			session.setAttribute("userName", user.getName());
+			session.setAttribute("userId", user.getId());
+			
+			return "home";
+		}
+	}
+	
 	// 2.loginController
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String loginView(@ModelAttribute("user") UserVO vo) {
+	public String loginView(@ModelAttribute("user") UserVO vo, Model model) {
 		System.out.println("로그인 화면으로 이동");
 		vo.setId("test");
 		vo.setPassword("1234");
+		SNSLogin snsLogin = new SNSLogin(naverSns);
+		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+		
+//		SNSLogin googleLogin = new SNSLogin(googleSns);
+//		model.addAttribute("google_url", googleLogin.getNaverAuthURL());
+		
+		/* 구글code 발행을 위한 URL 생성 */
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		model.addAttribute("google_url", url);
+		
+		
 		return "/user/login";
 	}
 
