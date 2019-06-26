@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
 	<!-- 1. xml 방법 -->
 	
@@ -42,6 +44,7 @@
 	
 	<!-- 2. 어노테이션 기반 설정 -->
 	<context:component-scan base-package="com.springbook"></context:component-scan>
+	<context:component-scan base-package="com.swp"></context:component-scan>
 	
 	<!-- 파일 업로드 설정 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -92,5 +95,55 @@
 	<mvc:resources mapping="/bower_components/**" location="/resources/bower_components/"/>
 	<mvc:resources mapping="/plugins/**" location="/resources/plugins/"/>
 	<mvc:resources mapping="/dist/**" location="/resources/dist/"/>
+	
+	  <!-- oauth2 login -->
+	<bean id="naverClientID" class="java.lang.String">
+	   <constructor-arg value="NR4HQdHjBXS5ud9g_ZFk" />
+    </bean>
+	<bean id="naverClientSecret" class="java.lang.String">
+		<constructor-arg value="zocmbKA0Fz" />
+	</bean>
+	<bean id="naverRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8090/auth/naver/callback" />
+	</bean>
 
+	<bean id="naverSns" class="com.jade.swp.auth.SnsValue">
+		<constructor-arg value="naver" />
+		<constructor-arg ref="naverClientID" />
+		<constructor-arg ref="naverClientSecret" />
+		<constructor-arg ref="naverRedirectUrl" />
+	</bean>
+	
+	<bean id="googleClientID" class="java.lang.String">
+	   <constructor-arg value="832462011042-612kpdahms3qesibjr313978828a6ba2.apps.googleusercontent.com" />
+    </bean>
+	<bean id="googleClientSecret" class="java.lang.String">
+		<constructor-arg value="3lEKDUjUe7VC67okjJf4Fnil" />
+	</bean>
+	<bean id="googleRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8090/auth/google/callback" />
+	</bean>
+
+	<bean id="googleSns" class="com.jade.swp.auth.SnsValue">
+		<constructor-arg value="google" />
+		<constructor-arg ref="googleClientID" />
+		<constructor-arg ref="googleClientSecret" />
+		<constructor-arg ref="googleRedirectUrl" />
+	</bean>
+	
+	<bean id="googleConnectionFactory"
+	           class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	   <constructor-arg ref="googleClientID" />
+	   <constructor-arg ref="googleClientSecret" />
+    </bean>
+
+	<bean id="googleOAuth2Parameters"
+		class="org.springframework.social.oauth2.OAuth2Parameters">
+		<property name="scope" value="https://www.googleapis.com/auth/plus.login" />
+		<!-- <property name="scope" value="https://www.googleapis.com/auth/plus.login" 
+			/> -->
+		<!-- <property name="scope" value="https://www.googleapis.com/auth/userinfo.email" /> -->
+		<property name="redirectUri" ref="googleRedirectUrl" />
+	</bean>
 </beans>
+
