@@ -16,6 +16,7 @@ public class UserVO {
 	private Date reg_date;
 	private String email;
 	private String googleid;
+	private String facebookid;
 	private String naverid;
 	private String nickname;
 
