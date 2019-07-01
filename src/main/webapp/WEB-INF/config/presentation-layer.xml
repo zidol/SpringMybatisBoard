@@ -97,6 +97,7 @@
 	<mvc:resources mapping="/dist/**" location="/resources/dist/"/>
 	
 	  <!-- oauth2 login -->
+	  <!-- naver -->
 	<bean id="naverClientID" class="java.lang.String">
 	   <constructor-arg value="NR4HQdHjBXS5ud9g_ZFk" />
     </bean>
@@ -113,7 +114,7 @@
 		<constructor-arg ref="naverClientSecret" />
 		<constructor-arg ref="naverRedirectUrl" />
 	</bean>
-	
+	<!-- Google -->
 	<bean id="googleClientID" class="java.lang.String">
 	   <constructor-arg value="832462011042-612kpdahms3qesibjr313978828a6ba2.apps.googleusercontent.com" />
     </bean>
@@ -144,6 +145,39 @@
 			/> -->
 		<!-- <property name="scope" value="https://www.googleapis.com/auth/userinfo.email" /> -->
 		<property name="redirectUri" ref="googleRedirectUrl" />
+	</bean>
+	
+	<!-- Facebook -->
+	<bean id="facebookClientID" class="java.lang.String">
+	   <constructor-arg value="339369890070694" />
+    </bean>
+	<bean id="facebookClientSecret" class="java.lang.String">
+		<constructor-arg value="615aabc37188b38132764c721456f5b7" />
+	</bean>
+	<bean id="facebookRedirectUrl" class="java.lang.String">
+		<constructor-arg value="http://localhost:8090/auth/facebook/callback" />
+	</bean>
+
+	<bean id="facebookSns" class="com.jade.swp.auth.SnsValue">
+		<constructor-arg value="facebook" />
+		<constructor-arg ref="facebookClientID" />
+		<constructor-arg ref="facebookClientSecret" />
+		<constructor-arg ref="facebookRedirectUrl" />
+	</bean>
+	
+	<bean id="facebookConnectionFactory"
+	           class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+	   <constructor-arg ref="facebookClientID" />
+	   <constructor-arg ref="facebookClientSecret" />
+    </bean>
+
+	<bean id="facebookOAuth2Parameters"
+		class="org.springframework.social.oauth2.OAuth2Parameters">
+		<property name="scope" value="public_profile" />
+		<!-- <property name="scope" value="https://www.googleapis.com/auth/plus.login" 
+			/> -->
+		<!-- <property name="scope" value="https://www.googleapis.com/auth/userinfo.email" /> -->
+		<property name="redirectUri" ref="facebookRedirectUrl" />
 	</bean>
 </beans>
 
