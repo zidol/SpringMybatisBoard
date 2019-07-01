@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
@@ -34,14 +35,20 @@ public class UserController {
 	
 	@Inject
 	private SnsValue googleSns;
-//	@Inject
-////	private SnsValue facebookSns;
+	
+	@Inject
+	private SnsValue facebookSns;
 	
 	@Inject
 	private GoogleConnectionFactory googleConnectionFactory;
 	
 	@Inject
 	private OAuth2Parameters googleOAuth2Parameters;
+	@Inject
+	private FacebookConnectionFactory facebookConnectionFactory;
+	
+	@Inject
+	private OAuth2Parameters facebookOAuth2Parameters;
 	
 	@RequestMapping(value="/join.do", method=RequestMethod.POST)
 	public String jogin(UserVO vo) {
@@ -95,21 +102,18 @@ public class UserController {
 		//3. DB 해당 유저가 존재하는지 체크(googleId, naverId컬럼 추가)
 		//4. 존재시강제로그인, 미존재가입 페이지
 		SnsValue sns = null;
-		
 		if(StringUtils.equals("naver" , service)) {
 			sns = naverSns;
 		} else if (StringUtils.equals("google" , service)) {
 			sns = googleSns;
-//		} else if (StringUtils.equals("facebook", service)) {
-//			sns = facebookSns;
+		} else if (StringUtils.equals("facebook", service)) {
+			sns = facebookSns;
 		}
-		
 		SNSLogin snsLogin = new SNSLogin(sns);
-		UserVO snsUser = snsLogin.getUserProfile(code); 
+		UserVO snsUser = snsLogin.getUserProfile(code);
 		System.out.println("Profile >>" + snsUser);
 		UserVO user = userService.getBySns(snsUser);
 		if (user == null) {
-
 			return "/user/login";
 		} else {
 			model.addAttribute("result", user.getName() + "님 반갑습니다.");
@@ -126,8 +130,6 @@ public class UserController {
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(@ModelAttribute("user") UserVO vo, Model model) {
 		System.out.println("로그인 화면으로 이동");
-		vo.setId("test");
-		vo.setPassword("1234");
 		SNSLogin snsLogin = new SNSLogin(naverSns);
 		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
 		
@@ -139,7 +141,12 @@ public class UserController {
 		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
 		model.addAttribute("google_url", url);
 		
-		
+		/* 페이스북code 발행을 위한 URL 생성 */
+		OAuth2Operations oauthOperations2 = facebookConnectionFactory.getOAuthOperations();
+		String url2 = oauthOperations2.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, facebookOAuth2Parameters);
+		System.out.println("google profile_url : " + url);
+		System.out.println("facebook profile_url : " + url2);
+		model.addAttribute("facebook_url", url2);
 		return "/user/login";
 	}
 
