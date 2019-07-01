@@ -78,6 +78,12 @@
 		SELECT * FROM USERS WHERE googleid=#{googleid }
 		]]>	
 	</select>
+	
+	<select id="getUserByFacebook" resultType="user">
+		<![CDATA[
+		SELECT * FROM USERS WHERE facebookid=#{facebookid }
+		]]>	
+	</select>
 </mapper>	
 	
 	
