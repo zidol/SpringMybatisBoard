@@ -48,6 +48,9 @@
             <a href="${ google_url }" class="btn btn-block btn-social btn-google btn-flat">
                 <i class="fa fa-google-plus"></i> 구글 계정으로 로그인
             </a>
+            <a href="${ facebook_url }" class="btn btn-block btn-social btn-facebook btn-flat">
+                <i class="fa fa-facebook"></i> 페이스북 계정으로 로그인
+            </a>
         </div>
         <!-- /.social-auth-links -->
 
