@@ -67,8 +67,10 @@ public class UserDAOMybatis {
 		System.out.println("===> Mybatis JDBC로 getBySns() 기능 처리");
 		if(StringUtils.isNotEmpty(snsUser.getNaverid())){
 			return mybatis.selectOne("UserDAO.getUserByNaver", snsUser.getNaverid()); 
+		} else if(StringUtils.isNotEmpty(snsUser.getGoogleid())){
+			return mybatis.selectOne("UserDAO.getUserByGoogle", snsUser.getGoogleid());
 		} else {
-			return mybatis.selectOne("UserDAO.getUserByGoogle", snsUser.getGoogleid() );
+			return mybatis.selectOne("UserDAO.getUserByFacebook", snsUser.getFacebookid());
 		}
 	}
 	//sns계정 로그인 하기
