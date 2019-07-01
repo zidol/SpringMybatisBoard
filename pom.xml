@@ -27,11 +27,19 @@
               <version>5.6.0</version>
         </dependency>
 
+		<!-- spring-social-google -->
         <dependency>
               <groupId>org.springframework.social</groupId>
               <artifactId>spring-social-google</artifactId>
               <version>1.0.0.RELEASE</version>
         </dependency>
+        
+        <!-- spring-social-facebook -->
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-facebook</artifactId>
+		    <version>2.0.3.RELEASE</version>
+		</dependency>
         
         <dependency>
 		  <groupId>org.apache.commons</groupId>
