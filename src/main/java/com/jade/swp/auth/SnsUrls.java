@@ -6,4 +6,5 @@ public interface SnsUrls {
 
 	static final String GOOGLE_PROFILE_URL = "https://www.googleapis.com/plus/v1/people/me";
 	static final String NAVER_PROFILE_URL = "https://openapi.naver.com/v1/nid/me";
+	static final String FACEBOOK_PROFILE_URL = "https://graph.facebook.com/me?fields=first_name,last_name,name,timezone,verified,email,picture";
 }

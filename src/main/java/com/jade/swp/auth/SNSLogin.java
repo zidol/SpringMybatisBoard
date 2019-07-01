@@ -19,11 +19,19 @@ public class SNSLogin {
 	private SnsValue sns;
 	
 	public SNSLogin(SnsValue sns) {
-		this.oauthService = new ServiceBuilder(sns.getClientId())
-				.apiSecret(sns.getClientSecret())
-				.callback(sns.getRedirectUrl())
-				.scope("profile")
-				.build(sns.getApi20Instance());
+		if(sns.getService().equals("facebook")) {
+			this.oauthService = new ServiceBuilder(sns.getClientId())
+					.apiSecret(sns.getClientSecret())
+					.callback(sns.getRedirectUrl())
+					.scope("public_profile")
+					.build(sns.getApi20Instance());
+		} else {
+			this.oauthService = new ServiceBuilder(sns.getClientId())
+					.apiSecret(sns.getClientSecret())
+					.callback(sns.getRedirectUrl())
+					.scope("profile")
+					.build(sns.getApi20Instance());
+		}
 		
 		this.sns = sns;
 	}
@@ -34,11 +42,11 @@ public class SNSLogin {
 
 	public UserVO getUserProfile(String code) throws Exception {
 		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		
 		OAuthRequest request = new OAuthRequest(Verb.GET, this.sns.getProfileUrl());
 		oauthService.signRequest(accessToken, request);
 		
 		Response response = oauthService.execute(request);
+		System.out.println("getBody : " + response.getBody());
 		return parseJson(response.getBody());
 	}
 
@@ -74,6 +82,13 @@ public class SNSLogin {
 			user.setNaverid(resNode.get("id").asText());
 			user.setNickname(resNode.get("nickname").asText());
 			user.setEmail(resNode.get("email").asText());
+		} else if (this.sns.isFacebook()) {
+			String id = rootNode.get("id").asText();
+			String name = rootNode.get("name").asText();
+			if (sns.isFacebook())
+				user.setFacebookid(id);
+			
+			user.setName(rootNode.get("name").asText());
 		}
 		
 		return user;
