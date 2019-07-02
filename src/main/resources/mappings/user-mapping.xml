@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserDAO">
-	<!-- ORAM을 위한 설정 -->
+	<!-- ORM을 위한 설정 -->
 	<resultMap type="user" id="boardResult">
 		<id property="id" column="ID"/>
 		<result property="password" column="PASSWORD"/>
@@ -33,6 +33,35 @@
 				        , #{hp}
 				        , #{address}
 				        , sysdate)
+		]]>
+		
+	</insert>
+	
+	<!-- 회원가입 -->
+	<insert id="insertSnsUser">
+		<![CDATA[
+		INSERT INTO USERS(id
+		                , password
+		                , name
+		                , sex
+		                , birthday
+		                , hp
+		                , address
+		                , reg_date
+		                , googleid
+		                , naverid
+		                , facebookid)
+				   VALUES(#{email}
+				        , #{password, jdbcType=VARCHAR}
+				        , #{name, jdbcType=VARCHAR}
+				        , #{sex, jdbcType=VARCHAR}
+				        , #{birthday, jdbcType=VARCHAR}
+				        , #{hp, jdbcType=VARCHAR}
+				        , #{address, jdbcType=VARCHAR}
+				        , sysdate
+				        , #{googleid, jdbcType=VARCHAR}
+				        , #{naverid, jdbcType=VARCHAR}
+				        , #{facebookid, jdbcType=VARCHAR})
 		]]>
 		
 	</insert>
