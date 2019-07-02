@@ -1,6 +1,6 @@
 # SpringMybatisBoard
 
-<h1> 스프링 MVC 게시판</h1>
+<h1> 스프링 MVC OAuth 2.0 게시판</h1>
 <ul>
   <li><h3>작업기간 : (15일) </h3></li>
   <li><h3>작업인원 : 단독작업</h3></li>
