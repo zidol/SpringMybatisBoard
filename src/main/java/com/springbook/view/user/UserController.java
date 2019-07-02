@@ -30,24 +30,25 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Inject
+	@Autowired
 	private SnsValue naverSns;
 	
-	@Inject
+	@Autowired
 	private SnsValue googleSns;
 	
-	@Inject
+	@Autowired
 	private SnsValue facebookSns;
 	
-	@Inject
+	@Autowired
 	private GoogleConnectionFactory googleConnectionFactory;
 	
-	@Inject
+	@Autowired
 	private OAuth2Parameters googleOAuth2Parameters;
-	@Inject
+	
+	@Autowired
 	private FacebookConnectionFactory facebookConnectionFactory;
 	
-	@Inject
+	@Autowired
 	private OAuth2Parameters facebookOAuth2Parameters;
 	
 	@RequestMapping(value="/join.do", method=RequestMethod.POST)
@@ -63,7 +64,24 @@ public class UserController {
 	}
 	//다국어 처리 설정 때문에 Controller를 거쳐야 함.
 	@RequestMapping(value="/joinPage.do", method=RequestMethod.GET)
-	public String joinPage() {
+	public String joinPage(Model model) {
+		SNSLogin snsLogin = new SNSLogin(naverSns);
+		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+		
+//		SNSLogin googleLogin = new SNSLogin(googleSns);
+//		model.addAttribute("google_url", googleLogin.getNaverAuthURL());
+		
+		/* 구글code 발행을 위한 URL 생성 */
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		model.addAttribute("google_url", url);
+		
+		/* 페이스북code 발행을 위한 URL 생성 */
+		OAuth2Operations oauthOperations2 = facebookConnectionFactory.getOAuthOperations();
+		String url2 = oauthOperations2.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, facebookOAuth2Parameters);
+		System.out.println("google profile_url : " + url);
+		System.out.println("facebook profile_url : " + url2);
+		model.addAttribute("facebook_url", url2);
 		return "/user/join";
 	}
 	
@@ -111,10 +129,11 @@ public class UserController {
 		}
 		SNSLogin snsLogin = new SNSLogin(sns);
 		UserVO snsUser = snsLogin.getUserProfile(code);
-		System.out.println("Profile >>" + snsUser);
+		System.out.println(snsUser.toString());
 		UserVO user = userService.getBySns(snsUser);
 		if (user == null) {
-			return "/user/login";
+			userService.insertSnsUserVO(snsUser);
+			return "home";
 		} else {
 			model.addAttribute("result", user.getName() + "님 반갑습니다.");
 			

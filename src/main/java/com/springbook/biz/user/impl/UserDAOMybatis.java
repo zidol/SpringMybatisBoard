@@ -77,7 +77,7 @@ public class UserDAOMybatis {
 	public int insertSnsUser(UserVO vo) {
 		System.out.println("===> Mybatis JDBC로 insertUser() 기능 처리");
 		int check = 0;
-		check = mybatis.insert("UserDAO.insertUser", vo);
+		check = mybatis.insert("UserDAO.insertSnsUser", vo);
 		System.out.println(check);
 		return check;
 	}
