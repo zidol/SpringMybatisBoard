@@ -4,6 +4,20 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/head.jsp" %>
+<style>
+.btn-naver{
+	background-color: #1EC800;
+	color: #ffffff;
+}
+.btn-naver:hover{
+	background-color: #41AF39;
+	color: #ffffff;
+}
+.i-naver {
+	background-image: url("${path}/dist/img/naver_login_icon.png");
+	background-size: 32px 32px;
+}
+</style>
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
@@ -42,8 +56,8 @@
 
         <div class="social-auth-links text-center">
             <p>- 또는 -</p>
-            <a href="${ naver_url }" class="btn btn-block btn-social btn-facebook btn-flat">
-                <i class="fa"></i> 네이버로 로그인
+            <a href="${ naver_url }" class="btn btn-block btn-social btn-flat btn-naver" >
+                <i class="i-naver"></i> 네이버 계정으로 로그인
             </a>
             <a href="${ google_url }" class="btn btn-block btn-social btn-google btn-flat">
                 <i class="fa fa-google-plus"></i> 구글 계정으로 로그인
