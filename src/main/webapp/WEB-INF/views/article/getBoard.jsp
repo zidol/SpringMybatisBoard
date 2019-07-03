@@ -299,7 +299,6 @@
                         replyPageNum = 1;  // 페이지 1로 초기화
                         getReplies("${path}/replies/" + articleNo + "/" + replyPageNum); // 댓글 목록 호출
                         replyTextObj.val("");   // 댓글 입력창 공백처리
-                        replyWriterObj.val("");   // 댓글 입력창 공백처리
                     }
                 }
             });
