@@ -24,7 +24,6 @@ public class SNSLogin {
 					.apiSecret(sns.getClientSecret())
 					.callback(sns.getRedirectUrl())
 					.scope("public_profile")
-					.scope("email")
 					.build(sns.getApi20Instance());
 		} else {
 			this.oauthService = new ServiceBuilder(sns.getClientId())

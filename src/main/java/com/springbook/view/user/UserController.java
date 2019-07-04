@@ -1,5 +1,4 @@
 package com.springbook.view.user;
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -133,27 +132,21 @@ public class UserController {
 		UserVO user = userService.getBySns(snsUser);
 		if (user == null) {
 			userService.insertSnsUserVO(snsUser);
-			return "home";
 		} else {
-			model.addAttribute("result", user.getName() + "님 반갑습니다.");
-			
 			// 4. 존재시 강제로그인 
 			session.setAttribute("userName", user.getName());
 			session.setAttribute("userId", user.getId());
-			
-			return "home";
 		}
+		return "redirect:/home.do";
 	}
 	
 	// 2.loginController
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(@ModelAttribute("user") UserVO vo, Model model) {
 		System.out.println("로그인 화면으로 이동");
+		
 		SNSLogin snsLogin = new SNSLogin(naverSns);
 		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
-		
-//		SNSLogin googleLogin = new SNSLogin(googleSns);
-//		model.addAttribute("google_url", googleLogin.getNaverAuthURL());
 		
 		/* 구글code 발행을 위한 URL 생성 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();

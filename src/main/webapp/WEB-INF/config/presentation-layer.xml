@@ -143,7 +143,7 @@
 		<property name="scope" value="https://www.googleapis.com/auth/plus.login" /> -->
 		<!-- <property name="scope" value="https://www.googleapis.com/auth/plus.login" 
 			/> -->
-		<property name="scope" value="https://www.googleapis.com/auth/userinfo.email" />
+		<property name="scope" value="profile email" />
 		<property name="redirectUri" ref="googleRedirectUrl" />
 	</bean>
 	
@@ -174,9 +174,6 @@
 	<bean id="facebookOAuth2Parameters"
 		class="org.springframework.social.oauth2.OAuth2Parameters">
 		<property name="scope" value="email" />
-		<!-- <property name="scope" value="https://www.googleapis.com/auth/plus.login" 
-			/> -->
-		<!-- <property name="scope" value="https://www.googleapis.com/auth/userinfo.email" /> -->
 		<property name="redirectUri" ref="facebookRedirectUrl" />
 	</bean>
 </beans>
