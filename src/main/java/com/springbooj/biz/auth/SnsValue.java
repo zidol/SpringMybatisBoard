@@ -1,4 +1,4 @@
-package com.jade.swp.auth;
+package com.springbooj.biz.auth;
 
 import org.apache.commons.lang3.StringUtils;
 

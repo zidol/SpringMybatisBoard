@@ -1,4 +1,4 @@
-package com.jade.swp.auth;
+package com.springbooj.biz.auth;
 
 public interface SnsUrls {
 	static final String NAVER_ACCESS_TOKEN = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";

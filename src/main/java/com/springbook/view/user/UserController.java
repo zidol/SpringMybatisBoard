@@ -17,15 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jade.swp.auth.SNSLogin;
-import com.jade.swp.auth.SnsValue;
+import com.springbooj.biz.auth.SNSLogin;
+import com.springbooj.biz.auth.SnsValue;
 import com.springbook.biz.user.UserService;
 import com.springbook.biz.user.UserVO;
 import com.springbook.biz.user.impl.UserDAO;
 
 @Controller
 public class UserController {
-	// 1. JoinController
 	@Autowired
 	private UserService userService;
 	
@@ -49,7 +48,8 @@ public class UserController {
 	
 	@Autowired
 	private OAuth2Parameters facebookOAuth2Parameters;
-	
+
+	// 1. JoinController
 	@RequestMapping(value="/join.do", method=RequestMethod.POST)
 	public String jogin(UserVO vo) {
 		System.out.println(vo); 

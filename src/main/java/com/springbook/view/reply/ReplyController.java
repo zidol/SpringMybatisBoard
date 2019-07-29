@@ -47,17 +47,17 @@ public class ReplyController {
     }
     
     //댓글 목록 메드
-    @RequestMapping(value = "/all/{articleNo}", method = RequestMethod.GET)
-    public ResponseEntity<List<ReplyVO>> list(@PathVariable("articleNo") Integer articleNo) {
-        ResponseEntity<List<ReplyVO>> entity = null;
-        try {
-            entity = new ResponseEntity<>(replyService.getReplies(articleNo), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return entity;
-    }
+//    @RequestMapping(value = "/all/{articleNo}", method = RequestMethod.GET)
+//    public ResponseEntity<List<ReplyVO>> list(@PathVariable("articleNo") Integer articleNo) {
+//        ResponseEntity<List<ReplyVO>> entity = null;
+//        try {
+//            entity = new ResponseEntity<>(replyService.getReplies(articleNo), HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        return entity;
+//    }
     
     //댓글 수정 메서드
     @RequestMapping(value = "/{replyNo}", method = {RequestMethod.PUT, RequestMethod.PATCH})

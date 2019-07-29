@@ -1,4 +1,4 @@
-package com.jade.swp.auth;
+package com.springbooj.biz.auth;
 
 import java.util.Iterator;
 
