@@ -4,6 +4,14 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 
 public class NaverAPI20 extends DefaultApi20 implements SnsUrls {
 	//싱글톤 패턴
+//	private static NaverAPI20 _instance;
+//	
+//	public static NaverAPI20 getInstace() {
+//		if(_instance == null) {
+//			_instance = new NaverAPI20();
+//		}
+//		return _instance;
+//	}
 	private NaverAPI20() {
 	}
 	
