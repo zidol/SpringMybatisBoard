@@ -108,7 +108,7 @@
 		<constructor-arg value="http://localhost:8090/auth/naver/callback" />
 	</bean>
 
-	<bean id="naverSns" class="com.springbooj.biz.auth.SnsValue">
+	<bean id="naverSns" class="com.springbook.biz.auth.SnsValue">
 		<constructor-arg value="naver" />
 		<constructor-arg ref="naverClientID" />
 		<constructor-arg ref="naverClientSecret" />
@@ -125,7 +125,7 @@
 		<constructor-arg value="http://localhost:8090/auth/google/callback" />
 	</bean>
 
-	<bean id="googleSns" class="com.springbooj.biz.auth.SnsValue">
+	<bean id="googleSns" class="com.springbook.biz.auth.SnsValue">
 		<constructor-arg value="google" />
 		<constructor-arg ref="googleClientID" />
 		<constructor-arg ref="googleClientSecret" />
@@ -158,7 +158,7 @@
 		<constructor-arg value="http://localhost:8090/auth/facebook/callback" />
 	</bean>
 
-	<bean id="facebookSns" class="com.springbooj.biz.auth.SnsValue">
+	<bean id="facebookSns" class="com.springbook.biz.auth.SnsValue">
 		<constructor-arg value="facebook" />
 		<constructor-arg ref="facebookClientID" />
 		<constructor-arg ref="facebookClientSecret" />

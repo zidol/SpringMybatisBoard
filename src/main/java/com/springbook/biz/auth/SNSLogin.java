@@ -1,4 +1,4 @@
-package com.springbooj.biz.auth;
+package com.springbook.biz.auth;
 
 import java.util.Iterator;
 

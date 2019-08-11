@@ -1,4 +1,4 @@
-package com.springbooj.biz.auth;
+package com.springbook.biz.auth;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
