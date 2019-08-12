@@ -65,7 +65,7 @@ public class SNSLogin {
 			JsonNode nameNode = rootNode.path("name");
 			String uname = nameNode.get("familyName").asText() + nameNode.get("givenName").asText();
 			user.setName(uname);
-
+			//json의 array는 list로 오기때문에 iterator사용 해야함
 			Iterator<JsonNode> iterEmails = rootNode.path("emails").elements();
 			while(iterEmails.hasNext()) {
 				JsonNode emailNode = iterEmails.next();
